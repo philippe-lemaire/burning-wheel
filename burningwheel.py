@@ -3,7 +3,7 @@ import numpy as np
 
 
 def roll(
-    shade="black", dice=0, obstacle=None, open_ended=False, luck=False, last_roll=[]
+    shade="black", dice=0, obstacle=None, open_ended=False, luck=False, last_roll=None
 ):
     """Rolls a Burning wheel test. Prints the outcome in plain English and returns a list of dice face values.
     Use the returned list as last_roll argument with luck=True to reroll with the Luck rule of artha spending"""
@@ -21,7 +21,7 @@ def roll(
 
     # if luck, it's a reroll for exploding 6s
     if luck:
-        rolls = last_roll[:]
+        rolls = last_roll
     else:
         rolls = [random.randint(1, 6) for die in range(dice)]
 
@@ -41,20 +41,18 @@ def roll(
 
     if obstacle:
         if successes < obstacle:
-            print(
-                f"You failed to meet the obstacle. The obstacle was {obstacle} and you got {successes} successes."
-            )
+            result = f"You failed to meet the obstacle. The obstacle was {obstacle} and you got {successes} successes."
+
         elif successes == obstacle:
-            print(
-                f"You met the obstacle. The obstacle was {obstacle} and you got {successes} successes."
-            )
+            result = f"You met the obstacle. The obstacle was {obstacle} and you got {successes} successes."
+
         else:
-            print(
-                f"""You beat the obstacle. The obstacle was {obstacle} and you got {successes} successes. Your margin of success is {successes-obstacle}"""
-            )
+            result = f"You beat the obstacle. The obstacle was {obstacle} and you got {successes} successes. Your margin of success is {successes-obstacle}."
+
     else:
-        print(f"You got {successes} successes.")
-    return rolls
+        result = f"You got {successes} successes."
+
+    return rolls, result
 
 
 def assess_difficulty(dice, obstacle):
