@@ -3,7 +3,7 @@ from tkinter import Button
 import streamlit as st
 from burningwheel import roll, assess_difficulty
 
-rolls = []
+# rolls = []
 
 st.markdown("# Burning Wheel Dice Roller")
 ## Shade
@@ -35,23 +35,25 @@ label = "Let’s roll…"
 
 # Basic roll
 if st.button(label=label):
-    last_roll, result = roll(
+    rolls, result = roll(
         shade=shade, dice=dice, obstacle=obstacle, open_ended=open_ended
     )
-    st.image([f"img/{die}.png" for die in last_roll])
+    st.image([f"img/{die}.png" for die in rolls])
     st.markdown(result)
 
 
 # Offer Luck
-rolls = last_roll.copy()
-st.markdown(f"{rolls=}")
-if 6 in rolls and st.button(
-    label="Do you want to spend 1 Fate to make the roll open-ended?"
+
+
+if (
+    # 6 in rolls and
+    not open_ended
+    and st.button(label="Do you want to spend 1 Fate to make the roll open-ended?")
 ):
 
     st.markdown("rerolling…")
     new_rolls, new_result = roll(
-        shade=shade, obstacle=obstacle, last_roll=last_roll, luck=True
+        shade=shade, obstacle=obstacle, last_roll=rolls, luck=True
     )
     st.image([f"img/{die}.png" for die in new_rolls])
     st.markdown(new_result)

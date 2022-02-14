@@ -1,7 +1,9 @@
 import random
 import numpy as np
+import streamlit as st
 
 
+# @st.cache(suppress_st_warning=True)
 def roll(
     shade="black", dice=0, obstacle=None, open_ended=False, luck=False, last_roll=None
 ):
